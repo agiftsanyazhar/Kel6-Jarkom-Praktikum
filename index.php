@@ -14,15 +14,6 @@
         // // Membuka file
         // $file       = fopen('D:\Kuliah\Semester 4\Jaringan Komputer Praktikum\Tugas\UAS\mahasiswa\input\openvpn.log.0','r') or die("Gagal membuka file!");
 
-        $result     = array();
-        $file       = explode("via", file_get_contents("D:\Kuliah\Semester 4\Jaringan Komputer Praktikum\Tugas\UAS\mahasiswa\input\openvpn.log.0"));
-
-        foreach ( $file as $content ) {
-            $result[] = array_filter(array_map("trim", explode("\n", $content)));
-        }
-        
-        var_dump($result);
-
         // while (!feof($file)) {
         //     $arr_file   = fgets($file);
         //     $arrFile[]  = fgets($file);
@@ -34,6 +25,25 @@
         // }
 
         // fclose($file);
+
+        $file       = explode("via", file_get_contents("D:\Kuliah\Semester 4\Jaringan Komputer Praktikum\Tugas\UAS\mahasiswa\input\openvpn.log.0"));
+
+        $result     = array();
+
+        foreach ( $file as $content => $data ) {
+            $result[] = array_filter(array_map("trim", explode("\n", $data)));
+
+            // $final_data = array_filter(array_map("trim", explode("\n", $data)));
+            
+            // $result[$data]['date']   = $final_data[0];
+            // $result[$data]['date']   = $final_data[1];
+            // $result[$data]['date']   = $final_data[2];
+            // $result[$data]['date']   = $final_data[3];
+            // $result[$data]['date']   = $final_data[4];
+            // $result[$data]['date']   = $final_data[5];
+        }
+        
+        var_dump($result);
     ?> 
 </body>
 </html>
