@@ -8,42 +8,72 @@
 </head>
 <body>
     <?php
-        // // Membuka direktori
-        // $dir        = opendir('D:\Kuliah\Semester 4\Jaringan Komputer Praktikum\Tugas\UAS\mahasiswa\input');
+        // Membuka direktori
+        $dir        = opendir('D:\Kuliah Online\Semester 4\JarKom\mahasiswa\input');
 
-        // // Membuka file
-        // $file       = fopen('D:\Kuliah\Semester 4\Jaringan Komputer Praktikum\Tugas\UAS\mahasiswa\input\openvpn.log.0','r') or die("Gagal membuka file!");
+        // Membuka file
+        $file       = fopen('D:\Kuliah Online\Semester 4\JarKom\mahasiswa\input\openvpn.log.0','r') or die("Gagal membuka file!");
 
-        // while (!feof($file)) {
-        //     $arr_file   = fgets($file);
-        //     $arrFile[]  = fgets($file);
-    
-        //     //explode 
-        //     $exarrFile = explode('via', $arr_file);
+        while (!feof($file)) 
+        {
+            // $arr_file   = fgets($file);
+            $arrFile[]  = fgets($file);
 
-        //     var_dump($exarrFile);
-        // }
-
-        // fclose($file);
-
-        $file       = explode("via", file_get_contents("D:\Kuliah\Semester 4\Jaringan Komputer Praktikum\Tugas\UAS\mahasiswa\input\openvpn.log.0"));
-
-        $result     = array();
-
-        foreach ( $file as $content => $data ) {
-            $result[] = array_filter(array_map("trim", explode("\n", $data)));
-
-            // $final_data = array_filter(array_map("trim", explode("\n", $data)));
-            
-            // $result[$data]['date']   = $final_data[0];
-            // $result[$data]['date']   = $final_data[1];
-            // $result[$data]['date']   = $final_data[2];
-            // $result[$data]['date']   = $final_data[3];
-            // $result[$data]['date']   = $final_data[4];
-            // $result[$data]['date']   = $final_data[5];
         }
-        
-        var_dump($result);
+
+        // var_dump($arrFile);
+        $index = 0;
+        $arrFile_jlmh = count($arrFile);
+        // $arrVirt = array(1000);
+        // for($i=0;$i<=count($arrFile);$i++)
+        for($i=0;$i<=10000;$i++)
+        {
+            if (strpos($arrFile[$i],"VIRT") !== false) {
+                if($index === 0){
+                    // createArrVirt($arrVirt, $arrFile, $index, $i);
+                    $arrVirt[$index]=$arrFile[$i];
+                    $arrVirt[$index]=substr($arrVirt[$index], strpos($arrVirt[$index], "V") + 6);
+                    echo $arrVirt[$index]."<br />";
+                    $index++;
+                }
+                $arrVirt_temp=substr($arrFile[$i], strpos($arrFile[$i], "V") + 6);
+                $count = 0;
+                for($j=0;$j<$index;$j++){
+                    if($arrVirt_temp === $arrVirt[$j]){
+                        $count++;
+                    }
+                }
+                if($count === 0){
+                    // createArrVirt($arrVirt, $arrFile, $index, $i);
+                    $arrVirt[$index]=$arrVirt_temp;
+                    echo $arrVirt[$index]."<br />";
+                    $index++;
+                }
+                
+            }
+        }
+        $arrVirt_jlmh = count($arrVirt);
+        for($i=0;$i<$arrVirt_jlmh;$i++)
+        {
+            print_r(explode(" ",$arrVirt[$i]));
+            echo "<br />";
+        }
+
+        // print_r($array[0][0]);
+
+        fclose($file);
+
+        function createArrVirt($arrVirt, $arrFile, $index, $i)
+        {       
+            // $arr=$arr2;
+            // $arr=substr($arr, strpos($arr, "V") + 6);
+            // echo $arr."<br />";
+            // $index++;
+            $arrVirt[$index]=$arrFile[$i];
+            $arrVirt[$index]=substr($arrVirt[$index], strpos($arrVirt[$index], "V") + 6);
+            echo $arrVirt[$index]."<br />";
+            $index++;
+        }
     ?> 
 </body>
 </html>
