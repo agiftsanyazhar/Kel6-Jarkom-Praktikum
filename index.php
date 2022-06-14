@@ -26,17 +26,17 @@
         $arrFile_jlmh = count($arrFile);
         // $arrVirt = array(1000);
         // for($i=0;$i<=count($arrFile);$i++)
-        for($i=0;$i<=10000;$i++)
+        for($i=0;$i<$arrFile_jlmh;$i++)
         {
-            if (strpos($arrFile[$i],"VIRT") !== false) {
+            if (strpos($arrFile[$i],"VIRT") !== false && strpos($arrFile[$i],"failed") === false) {
                 if($index === 0){
                     // createArrVirt($arrVirt, $arrFile, $index, $i);
                     $arrVirt[$index]=$arrFile[$i];
-                    $arrVirt[$index]=substr($arrVirt[$index], strpos($arrVirt[$index], "V") + 6);
-                    echo $arrVirt[$index]."<br />";
+                    $arrVirt[$index]=substr($arrVirt[$index], strpos($arrVirt[$index], ">") + 2);
+                    // echo $arrVirt[$index]."<br />";
                     $index++;
                 }
-                $arrVirt_temp=substr($arrFile[$i], strpos($arrFile[$i], "V") + 6);
+                $arrVirt_temp=substr($arrFile[$i], strpos($arrFile[$i], ">") + 2);
                 $count = 0;
                 for($j=0;$j<$index;$j++){
                     if($arrVirt_temp === $arrVirt[$j]){
@@ -46,22 +46,27 @@
                 if($count === 0){
                     // createArrVirt($arrVirt, $arrFile, $index, $i);
                     $arrVirt[$index]=$arrVirt_temp;
-                    echo $arrVirt[$index]."<br />";
+                    // echo $arrVirt[$index]."<br />";
                     $index++;
                 }
                 
             }
         }
+        fclose($file);
         $arrVirt_jlmh = count($arrVirt);
         for($i=0;$i<$arrVirt_jlmh;$i++)
         {
-            print_r(explode(" ",$arrVirt[$i]));
-            echo "<br />";
+            $split=explode(" ",$arrVirt[$i]);
+            $via[$i]=$split[2];
+            $split=explode("/",$arrVirt[$i]);
+            $nim[$i]=$split[0];
+            $ip[$i]=strtok($split[1], ':');
+
+            echo $nim[$i]." ".$ip[$i]." via ".$via[$i]."<br />";
         }
 
-        // print_r($array[0][0]);
 
-        fclose($file);
+
 
         function createArrVirt($arrVirt, $arrFile, $index, $i)
         {       
